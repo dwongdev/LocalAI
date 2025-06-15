@@ -99,7 +99,7 @@ jobs:
           go install github.com/GeertJohan/go.rice/rice@latest
 
           # The python3-grpc-tools package in 22.04 is too old
-          pip install --user grpcio-tools
+          pip install --user grpcio-tools==1.71.0 grpcio==1.71.0
 
           make -C backend/python/transformers
 
@@ -188,7 +188,7 @@ jobs:
           PATH="$PATH:$HOME/go/bin" make protogen-go
       - name: Build images
         run: |
-          docker build --build-arg FFMPEG=true --build-arg IMAGE_TYPE=extras --build-arg EXTRA_BACKENDS=rerankers --build-arg MAKEFLAGS="--jobs=5 --output-sync=target" -t local-ai:tests -f Dockerfile .
+          docker build --build-arg FFMPEG=true --build-arg MAKEFLAGS="--jobs=5 --output-sync=target" -t local-ai:tests -f Dockerfile .
           BASE_IMAGE=local-ai:tests DOCKER_AIO_IMAGE=local-ai-aio:test make docker-aio
       - name: Test
         run: |
@@ -223,7 +223,7 @@ jobs:
       - name: Dependencies
         run: |
           brew install protobuf grpc make protoc-gen-go protoc-gen-go-grpc libomp llvm
-          pip install --user --no-cache-dir grpcio-tools
+          pip install --user --no-cache-dir grpcio-tools==1.71.0 grpcio==1.71.0
           go install github.com/GeertJohan/go.rice/rice@latest
       - name: Test
         run: |
